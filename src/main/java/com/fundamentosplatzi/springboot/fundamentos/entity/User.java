@@ -3,7 +3,7 @@ package com.fundamentosplatzi.springboot.fundamentos.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class User {
     @Column(length = 50)
     private String email;
 
-    private LocalDateTime brithDate;
+    private LocalDate brithDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -30,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, LocalDateTime brithDate) {
+    public User(String name, String email, LocalDate brithDate) {
         this.name = name;
         this.email = email;
         this.brithDate = brithDate;
@@ -60,11 +60,11 @@ public class User {
         this.email = email;
     }
 
-    public LocalDateTime getBrithDate() {
+    public LocalDate getBrithDate() {
         return brithDate;
     }
 
-    public void setBrithDate(LocalDateTime brithDate) {
+    public void setBrithDate(LocalDate brithDate) {
         this.brithDate = brithDate;
     }
 
