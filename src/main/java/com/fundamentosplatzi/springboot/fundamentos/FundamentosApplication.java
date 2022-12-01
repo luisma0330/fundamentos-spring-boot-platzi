@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -47,6 +49,7 @@ public class FundamentosApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 //		ejemplosAnteriores();
 		saveUserInDataBase();
+		getInformationJpqlFromUser();
 	}
 
 	private void saveUserInDataBase(){
@@ -59,8 +62,18 @@ public class FundamentosApplication implements CommandLineRunner {
 		User user7 = new User("Enrique", "enrique@domain.com", LocalDate.of(2021, 11, 12));
 		User user8 = new User("Luis", "luis@domain.com", LocalDate.of(2021, 2, 27));
 		User user9 = new User("Paola", "paola@domain.com", LocalDate.of(2021, 4, 10));
-		List<User> list = Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9);
-		list.stream().forEach(userRepository::save);
+		User user10 = new User("user", "user@domain.com", LocalDate.of(2022, 9, 15));
+		User user11 = new User("user2", "user@domain.com", LocalDate.of(2022, 6, 25));
+		List<User> list = Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10,user11);
+		list.forEach(userRepository::save);
+	}
+
+	private void getInformationJpqlFromUser(){
+		LOGGER.info("Usuario con el metodo findbyUserEmail " +
+				userRepository.findUserEmail("luis@domain.com").orElseThrow(()->new RuntimeException("No se encontro el usuario")));
+
+		userRepository.findAndSort("user", Sort.by("id").ascending())
+				.stream().forEach(user -> LOGGER.info("User with method sort" + user));
 	}
 
 	private void ejemplosAnteriores(){
